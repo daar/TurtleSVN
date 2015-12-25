@@ -1,0 +1,121 @@
+object SVNAddProjectFrm: TSVNAddProjectFrm
+  Left = 424
+  Height = 205
+  Top = 195
+  Width = 520
+  HorzScrollBar.Page = 168
+  VertScrollBar.Page = 140
+  AutoScroll = True
+  Caption = 'SVNAddProjectFrm'
+  ClientHeight = 205
+  ClientWidth = 520
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.4.0.4'
+  object ProjectLabel: TLabel
+    Left = 6
+    Height = 15
+    Top = 6
+    Width = 508
+    Align = alTop
+    BorderSpacing.Around = 6
+    Caption = 'ProjectLabel'
+    ParentColor = False
+  end
+  object RepositoryLabel: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = ProjectEdit
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 58
+    Width = 97
+    BorderSpacing.Around = 6
+    Caption = 'RepositoryLabel'
+    ParentColor = False
+  end
+  object ButtonPanel1: TButtonPanel
+    AnchorSideTop.Control = ActiveCheckBox
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 163
+    Width = 508
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object ProjectEdit: TEdit
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 25
+    Top = 27
+    Width = 508
+    Align = alTop
+    AutoSelect = False
+    BorderSpacing.Around = 6
+    Enabled = False
+    TabOrder = 1
+    Text = 'ProjectEdit'
+  end
+  object RepositoryEdit: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = RepositoryLabel
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = RepositoryButton
+    Left = 6
+    Height = 25
+    Top = 79
+    Width = 487
+    Anchors = [akTop, akLeft, akRight]
+    AutoSelect = False
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 6
+    TabOrder = 2
+    Text = 'RepositoryEdit'
+  end
+  object RepositoryButton: TButton
+    AnchorSideTop.Control = RepositoryEdit
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = RepositoryEdit
+    AnchorSideBottom.Side = asrBottom
+    Left = 493
+    Height = 25
+    Top = 79
+    Width = 21
+    Anchors = [akTop, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Right = 6
+    Caption = '...'
+    OnClick = RepositoryButtonClick
+    TabOrder = 3
+  end
+  object ActiveCheckBox: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = RepositoryEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 24
+    Top = 110
+    Width = 508
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    Caption = 'ActiveCheckBox'
+    TabOrder = 4
+  end
+  object SelectDirectoryDialog: TSelectDirectoryDialog
+    left = 264
+    top = 48
+  end
+end
