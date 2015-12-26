@@ -189,6 +189,9 @@ var
   StatusItem : TSVNStatusItem;
   FileName: string;
 begin
+  //TODO: check of directories also need to be committed
+  //      we now only add files to the list, therefore the commit sometimes fails
+
   UpdateCheckedStatus;
   if SVNCommitMsgMemo.Text = '' then
     if MessageDlg ('No message set.', 'Do you wish to continue?', mtConfirmation,

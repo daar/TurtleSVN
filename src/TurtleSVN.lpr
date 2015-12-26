@@ -7,8 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Main, svnstatusform, svndiffform, svnupdateform,
-  svnaddprojectform, svnclasses, svnlogform, svncommitform, SVNCheckout;
+  Forms, Main, svnstatusform, svndiffform, svnupdateform, svnaddprojectform,
+  svnclasses, svnlogform, svncommitform, SVNCheckout, fdiffer;
 
 {$R *.res}
 

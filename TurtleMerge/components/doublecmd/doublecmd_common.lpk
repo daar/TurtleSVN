@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="doublecmd_common"/>
+    <Author Value="Alexander Koblov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+  UsageCustomOptions += '-fPIC';
+end"/>
+      <Parsing>
+        <SyntaxOptions>
+          <IncludeAssertionCode Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Common units for Double Commander"/>
+    <License Value="GNU GPL 2"/>
+    <Version Minor="3" Release="1"/>
+    <Files Count="9">
+      <Item1>
+        <Filename Value="dcclassesutf8.pas"/>
+        <UnitName Value="DCClassesUtf8"/>
+      </Item1>
+      <Item2>
+        <Filename Value="dcosutils.pas"/>
+        <UnitName Value="DCOSUtils"/>
+      </Item2>
+      <Item3>
+        <Filename Value="dcstrutils.pas"/>
+        <UnitName Value="DCStrUtils"/>
+      </Item3>
+      <Item4>
+        <Filename Value="dcbasictypes.pas"/>
+        <UnitName Value="DCBasicTypes"/>
+      </Item4>
+      <Item5>
+        <Filename Value="dcfileattributes.pas"/>
+        <UnitName Value="DCFileAttributes"/>
+      </Item5>
+      <Item6>
+        <Filename Value="dcconvertencoding.pas"/>
+        <UnitName Value="DCConvertEncoding"/>
+      </Item6>
+      <Item7>
+        <Filename Value="dcdatetimeutils.pas"/>
+        <UnitName Value="DCDateTimeUtils"/>
+      </Item7>
+      <Item8>
+        <Filename Value="dcxmlconfig.pas"/>
+        <UnitName Value="DCXmlConfig"/>
+      </Item8>
+      <Item9>
+        <Filename Value="dcprocessutf8.pas"/>
+        <UnitName Value="DCProcessUtf8"/>
+      </Item9>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LazUtils"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

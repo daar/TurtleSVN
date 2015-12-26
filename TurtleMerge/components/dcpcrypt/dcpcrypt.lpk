@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="dcpcrypt"/>
+    <Author Value="David Barton, Barko &amp; Graeme Geldenhuys"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="Ciphers;Hashes;$(PkgOutDir)"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+          <CStyleOperator Value="False"/>
+          <IncludeAssertionCode Value="True"/>
+          <AllowLabel Value="False"/>
+          <CPPInline Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CustomOptions Value="-Xd"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="DCPcrypt Cryptographic Component Library
+"/>
+    <License Value="DCPcrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
+www.cityinthesky.co.uk/cryptography.html
+"/>
+    <Version Major="2" Release="4" Build="1"/>
+    <Files Count="21">
+      <Item1>
+        <Filename Value="dcpbase64.pas"/>
+        <UnitName Value="DCPbase64"/>
+      </Item1>
+      <Item2>
+        <Filename Value="dcpblockciphers.pas"/>
+        <UnitName Value="DCPblockciphers"/>
+      </Item2>
+      <Item3>
+        <Filename Value="dcpconst.pas"/>
+        <UnitName Value="DCPconst"/>
+      </Item3>
+      <Item4>
+        <Filename Value="dcpcrypt2.pas"/>
+        <UnitName Value="DCPcrypt2"/>
+      </Item4>
+      <Item5>
+        <Filename Value="Hashes/dcphaval.pas"/>
+        <UnitName Value="DCPhaval"/>
+      </Item5>
+      <Item6>
+        <Filename Value="Hashes/dcpmd4.pas"/>
+        <UnitName Value="DCPmd4"/>
+      </Item6>
+      <Item7>
+        <Filename Value="Hashes/dcpmd5.pas"/>
+        <UnitName Value="DCPmd5"/>
+      </Item7>
+      <Item8>
+        <Filename Value="Hashes/dcpripemd128.pas"/>
+        <UnitName Value="DCPripemd128"/>
+      </Item8>
+      <Item9>
+        <Filename Value="Hashes/dcpripemd160.pas"/>
+        <UnitName Value="DCPripemd160"/>
+      </Item9>
+      <Item10>
+        <Filename Value="Hashes/dcpsha1.pas"/>
+        <UnitName Value="DCPsha1"/>
+      </Item10>
+      <Item11>
+        <Filename Value="Hashes/dcpsha256.pas"/>
+        <UnitName Value="DCPsha256"/>
+      </Item11>
+      <Item12>
+        <Filename Value="Hashes/dcpsha512.pas"/>
+        <UnitName Value="DCPsha512"/>
+      </Item12>
+      <Item13>
+        <Filename Value="Hashes/dcptiger.pas"/>
+        <UnitName Value="DCPtiger"/>
+      </Item13>
+      <Item14>
+        <Filename Value="Hashes/DCPhaval3.inc"/>
+        <Type Value="Include"/>
+      </Item14>
+      <Item15>
+        <Filename Value="Hashes/DCPhaval4.inc"/>
+        <Type Value="Include"/>
+      </Item15>
+      <Item16>
+        <Filename Value="Hashes/DCPhaval5.inc"/>
+        <Type Value="Include"/>
+      </Item16>
+      <Item17>
+        <Filename Value="Hashes/dcpcrc32.pas"/>
+        <UnitName Value="DCPcrc32"/>
+      </Item17>
+      <Item18>
+        <Filename Value="Hashes/DCPtiger.inc"/>
+        <Type Value="Include"/>
+      </Item18>
+      <Item19>
+        <Filename Value="Hashes/dccrc32.pp"/>
+        <UnitName Value="DCcrc32"/>
+      </Item19>
+      <Item20>
+        <Filename Value="Hashes/dcblake2.pp"/>
+        <UnitName Value="DCblake2"/>
+      </Item20>
+      <Item21>
+        <Filename Value="Hashes/dcpblake2.pas"/>
+        <UnitName Value="DCPblake2"/>
+      </Item21>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="multithreadprocslaz"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

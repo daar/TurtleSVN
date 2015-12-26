@@ -27,19 +27,30 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="viewerpackage"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="doublecmd_common"/>
       </Item2>
+      <Item3>
+        <PackageName Value="dcpcrypt"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="MultiThreadProcsLaz"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="SynEdit"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="LCL"/>
+      </Item6>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="11">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="TurtleSVN"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -70,7 +81,6 @@
         <ComponentName Value="SVNUpdateFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="SVNUpdateForm"/>
       </Unit4>
       <Unit5>
         <Filename Value="svnaddprojectform.pas"/>
@@ -82,7 +92,6 @@
       <Unit6>
         <Filename Value="svnclasses.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SVNClasses"/>
       </Unit6>
       <Unit7>
         <Filename Value="svnlogform.pas"/>
@@ -104,8 +113,13 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="SVNCheckoutForm"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="SVNCheckout"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="../TurtleMerge/fdiffer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fDiffer"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -115,6 +129,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../TurtleMerge"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
