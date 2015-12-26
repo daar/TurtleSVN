@@ -26,7 +26,7 @@ uses
   Classes, SysUtils, Process, LCLProc,
   Forms, Controls, Dialogs, ComCtrls, StdCtrls, ButtonPanel, ExtCtrls, Menus,
   // LazUtils
-  FileUtil, LazFileUtils, INIFiles, UTF8Process,
+  FileUtil, LazFileUtils, INIFiles,
   // LazSvn
   SVNClasses;
 

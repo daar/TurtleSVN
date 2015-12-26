@@ -1,0 +1,254 @@
+object SVNCheckoutForm: TSVNCheckoutForm
+  Left = 882
+  Height = 375
+  Top = 115
+  Width = 479
+  Caption = 'Checkout'
+  ClientHeight = 375
+  ClientWidth = 479
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.4.0.4'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 36
+    Top = 333
+    Width = 467
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel, pbHelp]
+  end
+  object GroupBox1: TGroupBox
+    Left = 6
+    Height = 131
+    Top = 6
+    Width = 467
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Repository'
+    ClientHeight = 114
+    ClientWidth = 463
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 6
+      Height = 15
+      Top = 6
+      Width = 451
+      Align = alTop
+      BorderSpacing.Around = 6
+      Caption = 'URL of repository:'
+      ParentColor = False
+    end
+    object URLComboBox: TComboBox
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = Label1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = RepositoryBrowserButton
+      Left = 6
+      Height = 27
+      Top = 27
+      Width = 424
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Around = 6
+      ItemHeight = 0
+      TabOrder = 0
+      Text = 'URLComboBox'
+    end
+    object RepositoryBrowserButton: TButton
+      AnchorSideTop.Control = Label1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
+      Left = 436
+      Height = 27
+      Top = 27
+      Width = 21
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = '...'
+      Enabled = False
+      OnClick = RepositoryBrowserButtonClick
+      TabOrder = 1
+    end
+    object Label2: TLabel
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = URLComboBox
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 15
+      Top = 60
+      Width = 114
+      BorderSpacing.Around = 6
+      Caption = 'Checkout directory:'
+      ParentColor = False
+    end
+    object CheckoutDirectoryEdit: TEdit
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideTop.Control = Label2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = CheckoutDirectoryButton
+      Left = 6
+      Height = 25
+      Top = 81
+      Width = 424
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Around = 6
+      TabOrder = 2
+      Text = 'CheckoutDirectoryEdit'
+    end
+    object CheckoutDirectoryButton: TButton
+      AnchorSideTop.Control = Label2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
+      Left = 436
+      Height = 27
+      Top = 81
+      Width = 21
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = '...'
+      OnClick = CheckoutDirectoryButtonClick
+      TabOrder = 3
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 6
+    Height = 89
+    Top = 143
+    Width = 467
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Checkout Depth'
+    ClientHeight = 72
+    ClientWidth = 463
+    TabOrder = 2
+    object ComboBox2: TComboBox
+      Left = 6
+      Height = 27
+      Top = 6
+      Width = 451
+      Align = alTop
+      BorderSpacing.Around = 6
+      ItemHeight = 0
+      ItemIndex = 0
+      Items.Strings = (
+        'Fully recursive'
+        'Immediate children, including folders'
+        'Only file children'
+        'Only this item'
+        'Working copy'
+        'Exclude'
+      )
+      TabOrder = 0
+      Text = 'Fully recursive'
+    end
+    object CheckBox1: TCheckBox
+      Left = 6
+      Height = 24
+      Top = 39
+      Width = 451
+      Align = alTop
+      BorderSpacing.Around = 6
+      Caption = 'Ommit externals'
+      TabOrder = 1
+    end
+    object Button3: TButton
+      AnchorSideTop.Control = ComboBox2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 357
+      Height = 27
+      Top = 39
+      Width = 100
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Choose items...'
+      TabOrder = 2
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 6
+    Height = 86
+    Top = 238
+    Width = 467
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Revision'
+    ClientHeight = 69
+    ClientWidth = 463
+    TabOrder = 3
+    object RadioButton1: TRadioButton
+      Left = 6
+      Height = 24
+      Top = 36
+      Width = 451
+      Align = alTop
+      BorderSpacing.Around = 6
+      Caption = 'Revision'
+      TabOrder = 0
+    end
+    object RadioButton2: TRadioButton
+      Left = 6
+      Height = 24
+      Top = 6
+      Width = 451
+      Align = alTop
+      BorderSpacing.Around = 6
+      Caption = 'HEAD revision'
+      Checked = True
+      TabOrder = 2
+      TabStop = True
+    end
+    object RevisionNumberEdit: TEdit
+      AnchorSideLeft.Control = GroupBox3
+      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Button4
+      Left = 184
+      Height = 25
+      Top = 36
+      Width = 201
+      Anchors = [akTop, akRight]
+      BorderSpacing.Around = 6
+      TabOrder = 1
+      Text = 'RevisionNumberEdit'
+    end
+    object Button4: TButton
+      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = GroupBox3
+      AnchorSideRight.Side = asrBottom
+      Left = 391
+      Height = 27
+      Top = 36
+      Width = 66
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Show log'
+      TabOrder = 3
+    end
+  end
+  object SelectDirectoryDialog: TSelectDirectoryDialog
+    left = 214
+    top = 86
+  end
+end

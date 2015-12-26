@@ -28,6 +28,7 @@ type
     MenuItem17: TMenuItem;
     MenuItem18: TMenuItem;
     MenuItem19: TMenuItem;
+    CheckOutMenuItem: TMenuItem;
     RevertMenuItem: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
@@ -48,6 +49,7 @@ type
     Splitter: TSplitter;
     StatusBar: TStatusBar;
     PUPMenu: TPopupMenu;
+    procedure CheckOutMenuItemClick(Sender: TObject);
     procedure CommitMenuItemClick(Sender: TObject);
     procedure DiffMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -70,7 +72,8 @@ implementation
 {$R *.lfm}
 
 uses
-  SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm;
+  SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
+  SVNCheckout;
 
 { TMainForm }
 
@@ -81,7 +84,7 @@ end;
 
 procedure TMainForm.UpdateMenuItemClick(Sender: TObject);
 begin
-  ShowSVNUpdateFrm(ShellTreeView.Path);
+  ShowSVNUpdateFrm(ShellTreeView.Path, SVNExecutable + ' update "' + ShellTreeView.Path + '" --non-interactive');
 end;
 
 procedure TMainForm.LogMenuItemClick(Sender: TObject);
@@ -91,12 +94,9 @@ end;
 
 procedure TMainForm.DeleteMenuItemClick(Sender: TObject);
 var
-  fl: TStringList;
   i: integer;
   filename: string;
 begin
-  fl := TStringList.Create;
-
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
     begin
@@ -153,7 +153,6 @@ var
   sl: TStringList;
   Node: TTreeNode;
   i: integer;
-  txt: string;
 begin
   {$IFDEF MSWINDOWS}
   SHGetSpecialFolderLocation(0, CSIDL_PERSONAL, PIDL);
@@ -201,6 +200,11 @@ end;
 procedure TMainForm.CommitMenuItemClick(Sender: TObject);
 begin
   ShowSVNStatusFrm(ShellTreeView.Path);
+end;
+
+procedure TMainForm.CheckOutMenuItemClick(Sender: TObject);
+begin
+  ShowSVNCheckoutFrm;
 end;
 
 end.

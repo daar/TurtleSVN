@@ -43,6 +43,7 @@ type
     procedure OKButtonClick(Sender: TObject);
     procedure ShowLogButtonClick(Sender: TObject);
   private
+    FExecuteCommand: string;
     FRepositoryPath: string;
     { private declarations }
     procedure ProcessSVNUpdateOutput(var MemStream: TMemoryStream; var BytesRead: LongInt);
@@ -50,10 +51,11 @@ type
     { public declarations }
     procedure Execute({%H-}Data: PtrInt);
 
+    property ExecuteCommand: string read FExecuteCommand write FExecuteCommand;
     property RepositoryPath: string read FRepositoryPath write FrepositoryPath;
   end;
 
-procedure ShowSVNUpdateFrm(ARepoPath: string);
+procedure ShowSVNUpdateFrm(ARepoPath, AExecuteCommand: string);
 
 var
   SVNUpdateFrm: TSVNUpdateFrm;
@@ -67,10 +69,12 @@ uses
 
 { TSVNUpdateFrm }
 
-procedure ShowSVNUpdateFrm(ARepoPath: string);
+procedure ShowSVNUpdateFrm(ARepoPath, AExecuteCommand: string);
 begin
   if not Assigned(SVNUpdateFrm) then
     SVNUpdateFrm := TSVNUpdateFrm.Create(nil);
+
+  SVNUpdateFrm.ExecuteCommand := AExecuteCommand;
 
   SVNUpdateFrm.RepositoryPath := ARepoPath;
   SVNUpdateFrm.Show;
@@ -181,7 +185,7 @@ begin
   BytesRead := 0;
 
   AProcess := TProcessUTF8.Create(nil);
-  AProcess.CommandLine := SVNExecutable + ' update "' + RepositoryPath + '" --non-interactive';
+  AProcess.CommandLine := ExecuteCommand;
   debugln('TSVNUpdateFrm.Execute CommandLine ' + AProcess.CommandLine);
   AProcess.Options := [poUsePipes, poStdErrToOutput];
   AProcess.ShowWindow := swoHIDE;

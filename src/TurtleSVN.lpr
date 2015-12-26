@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, Main, svnstatusform, svndiffform, svnupdateform,
-  svnaddprojectform, svnclasses, svnlogform, svncommitform;
+  svnaddprojectform, svnclasses, svnlogform, svncommitform, SVNCheckout;
 
 {$R *.res}
 
@@ -16,6 +16,7 @@ begin
   RequireDerivedFormResource := True;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TSVNCheckoutForm, SVNCheckoutForm);
   Application.Run;
 end.
 

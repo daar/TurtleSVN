@@ -1130,6 +1130,11 @@ object MainForm: TMainForm
     Images = ImageList1
     left = 272
     top = 184
+    object CheckOutMenuItem: TMenuItem
+      Caption = 'SVN Checkout'
+      ImageIndex = 3
+      OnClick = CheckOutMenuItemClick
+    end
     object UpdateMenuItem: TMenuItem
       Caption = 'Update'
       Bitmap.Data = {

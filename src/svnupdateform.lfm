@@ -11,10 +11,10 @@ object SVNUpdateFrm: TSVNUpdateFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.1'
+  LCLVersion = '1.4.0.4'
   object SVNUpdateListView: TListView
     Left = 6
-    Height = 241
+    Height = 246
     Top = 6
     Width = 628
     Align = alClient
@@ -35,8 +35,8 @@ object SVNUpdateFrm: TSVNUpdateFrm
   end
   object ButtonPanel: TButtonPanel
     Left = 6
-    Height = 41
-    Top = 253
+    Height = 36
+    Top = 258
     Width = 628
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True

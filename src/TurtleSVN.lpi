@@ -35,10 +35,11 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="10">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="TurtleSVN"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -54,6 +55,7 @@
         <ComponentName Value="SVNStatusFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNStatusForm"/>
       </Unit2>
       <Unit3>
         <Filename Value="svndiffform.pas"/>
@@ -68,6 +70,7 @@
         <ComponentName Value="SVNUpdateFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNUpdateForm"/>
       </Unit4>
       <Unit5>
         <Filename Value="svnaddprojectform.pas"/>
@@ -79,6 +82,7 @@
       <Unit6>
         <Filename Value="svnclasses.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="SVNClasses"/>
       </Unit6>
       <Unit7>
         <Filename Value="svnlogform.pas"/>
@@ -86,6 +90,7 @@
         <ComponentName Value="SVNLogFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNLogForm"/>
       </Unit7>
       <Unit8>
         <Filename Value="svncommitform.pas"/>
@@ -94,6 +99,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="svncheckout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SVNCheckoutForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNCheckout"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
