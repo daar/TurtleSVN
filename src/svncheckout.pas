@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ButtonPanel, ExtCtrls, INIFiles;
+  ButtonPanel, ExtCtrls, INIFiles, ComCtrls;
 
 type
 
@@ -15,10 +15,10 @@ type
   TSVNCheckoutForm = class(TForm)
     RepositoryBrowserButton: TButton;
     CheckoutDirectoryButton: TButton;
-    Button3: TButton;
-    Button4: TButton;
+    ChooseItemsButton: TButton;
+    ShowLogButton: TButton;
     ButtonPanel1: TButtonPanel;
-    CheckBox1: TCheckBox;
+    OmmitExternalsCheckBox: TCheckBox;
     SelectDirectoryDialog: TSelectDirectoryDialog;
     URLComboBox: TComboBox;
     ComboBox2: TComboBox;
@@ -29,8 +29,10 @@ type
     GroupBox3: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
+    RevisionRadioButton: TRadioButton;
+    HEADRadioButton: TRadioButton;
+    procedure ChooseItemsButtonClick(Sender: TObject);
+    procedure ShowLogButtonClick(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
@@ -44,7 +46,7 @@ type
     { public declarations }
   end;
 
-procedure ShowSVNCheckoutFrm;
+procedure ShowSVNCheckoutFrm(ACheckoutDirectory: string);
 
 var
   SVNCheckoutForm: TSVNCheckoutForm;
@@ -54,13 +56,14 @@ implementation
 {$R *.lfm}
 
 uses
-  SVNClasses, SVNUpdateForm;
+  SVNClasses, SVNUpdateForm, SVNLogForm;
 
-procedure ShowSVNCheckoutFrm;
+procedure ShowSVNCheckoutFrm(ACheckoutDirectory: string);
 begin
   if not Assigned(SVNCheckoutForm) then
     SVNCheckoutForm := TSVNCheckoutForm.Create(nil);
 
+  SVNCheckoutForm.CheckoutDirectoryEdit.Text := ACheckoutDirectory;
   SVNCheckoutForm.Show;
 end;
 
@@ -69,9 +72,9 @@ end;
 procedure TSVNCheckoutForm.FormCreate(Sender: TObject);
 var
   Config: TINIFile;
-  count: LongInt;
-  i: LongInt;
-  s: String;
+  count: longint;
+  i: longint;
+  s: string;
 begin
   try
     Config := TINIFile.Create('turtlesvn.ini');
@@ -89,30 +92,36 @@ begin
         URLComboBox.Items.Add(s);
     end;
 
-
   finally
     Config.Free;
   end;
 end;
 
-procedure TSVNCheckoutForm.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+procedure TSVNCheckoutForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   Config: TINIFile;
-  i: Integer;
+  i: integer;
+  URL: TStrings;
 begin
-    try
-      Config := TINIFile.Create('turtlesvn.ini');
+  try
+    Config := TINIFile.Create('turtlesvn.ini');
 
-      //write all URLs to INI
-      Config.WriteInteger('Checkout', 'URLCount', URLComboBox.Items.Count + 1);
-      Config.WriteString('Checkout', 'URL1', URLComboBox.Text);
-      for i := 0 to URLComboBox.Items.Count - 1 do
-        Config.WriteString('Checkout', 'URL' + IntToStr(i+2), URLComboBox.Items[i]);
-    finally
-      Config.Free;
-    end;
+    //write all URLs to INI
+    URL := TStringList.Create;
+    URL.Clear;
+    URL.AddStrings(URLComboBox.Items);
+
+    if URL.IndexOf(URLComboBox.Text) = -1 then
+      URL.Insert(0, URLComboBox.Text);
+
+    Config.WriteInteger('Checkout', 'URLCount', URL.Count);
+    for i := 0 to URL.Count - 1 do
+      Config.WriteString('Checkout', 'URL' + IntToStr(i + 1), URL[i]);
+  finally
+    URL.Free;
+    Config.Free;
   end;
+end;
 
 procedure TSVNCheckoutForm.CheckoutDirectoryButtonClick(Sender: TObject);
 begin
@@ -128,7 +137,6 @@ end;
 procedure TSVNCheckoutForm.FormActivate(Sender: TObject);
 begin
   URLComboBox.Text := '';
-  CheckoutDirectoryEdit.Text := '';
   RevisionNumberEdit.Text := '';
 end;
 
@@ -137,11 +145,55 @@ begin
   Close;
 end;
 
-procedure TSVNCheckoutForm.OKButtonClick(Sender: TObject);
+procedure TSVNCheckoutForm.ShowLogButtonClick(Sender: TObject);
+var
+  li: TListItem;
 begin
-  ShowSVNUpdateFrm(URLComboBox.Text, SVNExecutable + ' checkout "' + URLComboBox.Text + '" "' + CheckoutDirectoryEdit.Text + '"');
+  if not Assigned(SVNLogFrm) then
+    SVNLogFrm := TSVNLogFrm.Create(nil);
+
+  SVNLogFrm.RepositoryPath := URLComboBox.Text;
+  SVNLogFrm.ShowModal;
+
+  li := SVNLogFrm.LogListView.Selected;
+  if Assigned(li) then
+  begin
+    RevisionNumberEdit.Text := li.Caption;
+    RevisionRadioButton.Checked := True;
+  end;
+end;
+
+procedure TSVNCheckoutForm.ChooseItemsButtonClick(Sender: TObject);
+begin
+  //opens the repository browser
+end;
+
+procedure TSVNCheckoutForm.OKButtonClick(Sender: TObject);
+var
+  o: string;
+  r: string;
+begin
+  if OmmitExternalsCheckBox.Checked then
+    o := ' --ignore-externals '
+  else
+    o := '';
+
+  if RevisionRadioButton.Checked and (RevisionNumberEdit.Text <> '') then
+    r := ' --revision ' + RevisionNumberEdit.Text
+  else
+    r := '';
+
+  ShowSVNUpdateFrm(URLComboBox.Text,
+    Format('%s checkout %s %s "%s" "%s"',
+    [SVNExecutable,
+    r,
+    o, URLComboBox.Text,
+    CheckoutDirectoryEdit.Text]));
+
   Close;
 end;
 
 end.
+
+
 

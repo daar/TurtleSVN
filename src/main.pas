@@ -204,7 +204,7 @@ end;
 
 procedure TMainForm.CheckOutMenuItemClick(Sender: TObject);
 begin
-  ShowSVNCheckoutFrm;
+  ShowSVNCheckoutFrm(ShellTreeView.Path);
 end;
 
 end.

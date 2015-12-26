@@ -9,6 +9,7 @@ object SVNCheckoutForm: TSVNCheckoutForm
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
+  Position = poScreenCenter
   LCLVersion = '1.4.0.4'
   object ButtonPanel1: TButtonPanel
     Left = 6
@@ -144,20 +145,19 @@ object SVNCheckoutForm: TSVNCheckoutForm
       Width = 451
       Align = alTop
       BorderSpacing.Around = 6
+      Enabled = False
       ItemHeight = 0
-      ItemIndex = 0
       Items.Strings = (
         'Fully recursive'
         'Immediate children, including folders'
         'Only file children'
         'Only this item'
-        'Working copy'
-        'Exclude'
+        'Custom depths'
       )
       TabOrder = 0
       Text = 'Fully recursive'
     end
-    object CheckBox1: TCheckBox
+    object OmmitExternalsCheckBox: TCheckBox
       Left = 6
       Height = 24
       Top = 39
@@ -167,7 +167,7 @@ object SVNCheckoutForm: TSVNCheckoutForm
       Caption = 'Ommit externals'
       TabOrder = 1
     end
-    object Button3: TButton
+    object ChooseItemsButton: TButton
       AnchorSideTop.Control = ComboBox2
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox2
@@ -180,6 +180,8 @@ object SVNCheckoutForm: TSVNCheckoutForm
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = 'Choose items...'
+      Enabled = False
+      OnClick = ChooseItemsButtonClick
       TabOrder = 2
     end
   end
@@ -195,7 +197,7 @@ object SVNCheckoutForm: TSVNCheckoutForm
     ClientHeight = 69
     ClientWidth = 463
     TabOrder = 3
-    object RadioButton1: TRadioButton
+    object RevisionRadioButton: TRadioButton
       Left = 6
       Height = 24
       Top = 36
@@ -205,7 +207,7 @@ object SVNCheckoutForm: TSVNCheckoutForm
       Caption = 'Revision'
       TabOrder = 0
     end
-    object RadioButton2: TRadioButton
+    object HEADRadioButton: TRadioButton
       Left = 6
       Height = 24
       Top = 6
@@ -219,9 +221,9 @@ object SVNCheckoutForm: TSVNCheckoutForm
     end
     object RevisionNumberEdit: TEdit
       AnchorSideLeft.Control = GroupBox3
-      AnchorSideTop.Control = RadioButton2
+      AnchorSideTop.Control = HEADRadioButton
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Button4
+      AnchorSideRight.Control = ShowLogButton
       Left = 184
       Height = 25
       Top = 36
@@ -231,8 +233,8 @@ object SVNCheckoutForm: TSVNCheckoutForm
       TabOrder = 1
       Text = 'RevisionNumberEdit'
     end
-    object Button4: TButton
-      AnchorSideTop.Control = RadioButton2
+    object ShowLogButton: TButton
+      AnchorSideTop.Control = HEADRadioButton
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox3
       AnchorSideRight.Side = asrBottom
@@ -244,11 +246,12 @@ object SVNCheckoutForm: TSVNCheckoutForm
       AutoSize = True
       BorderSpacing.Around = 6
       Caption = 'Show log'
+      OnClick = ShowLogButtonClick
       TabOrder = 3
     end
   end
   object SelectDirectoryDialog: TSelectDirectoryDialog
-    left = 214
-    top = 86
+    left = 336
+    top = 96
   end
 end
