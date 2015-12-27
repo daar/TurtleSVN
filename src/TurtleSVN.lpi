@@ -47,7 +47,7 @@
         <PackageName Value="LCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="12">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -92,6 +92,7 @@
       <Unit6>
         <Filename Value="svnclasses.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="SVNClasses"/>
       </Unit6>
       <Unit7>
         <Filename Value="svnlogform.pas"/>
@@ -120,6 +121,12 @@
         <HasResources Value="True"/>
         <UnitName Value="fDiffer"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="../TurtleIDiff/idiff.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="idiff"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -129,7 +136,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../TurtleMerge"/>
+      <OtherUnitFiles Value="../TurtleMerge;../TurtleIDiff"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

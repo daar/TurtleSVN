@@ -29,6 +29,7 @@ type
     MenuItem18: TMenuItem;
     MenuItem19: TMenuItem;
     CheckOutMenuItem: TMenuItem;
+    AddMenuItem: TMenuItem;
     RevertMenuItem: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
@@ -49,6 +50,7 @@ type
     Splitter: TSplitter;
     StatusBar: TStatusBar;
     PUPMenu: TPopupMenu;
+    procedure AddMenuItemClick(Sender: TObject);
     procedure CheckOutMenuItemClick(Sender: TObject);
     procedure CommitMenuItemClick(Sender: TObject);
     procedure DiffMenuItemClick(Sender: TObject);
@@ -205,6 +207,17 @@ end;
 procedure TMainForm.CheckOutMenuItemClick(Sender: TObject);
 begin
   ShowSVNCheckoutFrm(ShellTreeView.Path);
+end;
+
+procedure TMainForm.AddMenuItemClick(Sender: TObject);
+begin
+  if Sender.ClassName = 'TShellTreeView' then
+  begin
+    //add folder recursively
+
+  end
+  else
+
 end;
 
 end.
