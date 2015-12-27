@@ -109,15 +109,13 @@ begin
   else
   begin
     AProcess := TProcess.Create(nil);
-    AProcess.Executable := IncludeTrailingPathDelimiter(CurrentDirectory) +
-      ShellListView.Selected.Caption;
+    AProcess.Executable := 'gnome-open';
+    AProcess.Parameters.Add(
+    IncludeTrailingPathDelimiter(CurrentDirectory) +
+      ShellListView.Selected.Caption);
     AProcess.Execute;
     AProcess.Free;
   end;
-
-  // we have used ShellExecute to make things easier (from ShellApi unit)
-  // but it will only work in windows
-  // use TProcess for a cross platform way
 end;
 
 procedure TMainForm.ShellTreeViewChange(Sender: TObject; Node: TTreeNode);
