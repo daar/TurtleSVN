@@ -189,7 +189,7 @@ var
   StatusItem : TSVNStatusItem;
   FileName: string;
 begin
-  //TODO: check of directories also need to be committed
+    //TODO: check if directories also need to be committed
   //      we now only add files to the list, therefore the commit sometimes fails
 
   UpdateCheckedStatus;

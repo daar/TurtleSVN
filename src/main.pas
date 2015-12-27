@@ -5,15 +5,20 @@ unit Main;
 interface
 
 uses
-  Classes, Forms, Controls, ShellCtrls, SysUtils,
-  ExtCtrls, ComCtrls, Menus;
+  Classes, Forms, Controls, ShellCtrls, SysUtils, Process,
+  ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, Utils;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    btnGo: TBitBtn;
+    edtPath: TEdit;
+    ShellListView: TListView;
     ImageList1: TImageList;
+    ImageList2: TImageList;
+    Label1: TLabel;
     MainMenu1: TMainMenu;
     FileMenuItem: TMenuItem;
     DiffMenuItem: TMenuItem;
@@ -30,6 +35,8 @@ type
     MenuItem19: TMenuItem;
     CheckOutMenuItem: TMenuItem;
     AddMenuItem: TMenuItem;
+    CleanupMenuItem: TMenuItem;
+    Panel1: TPanel;
     RevertMenuItem: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
@@ -42,16 +49,16 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
+    Splitter1: TSplitter;
+    ShellTreeView: TShellTreeView;
     UpdateMenuItem: TMenuItem;
     CommitMenuItem: TMenuItem;
     QuitMenuItem: TMenuItem;
-    ShellListView: TShellListView;
-    ShellTreeView: TShellTreeView;
-    Splitter: TSplitter;
     StatusBar: TStatusBar;
     PUPMenu: TPopupMenu;
     procedure AddMenuItemClick(Sender: TObject);
     procedure CheckOutMenuItemClick(Sender: TObject);
+    procedure CleanupMenuItemClick(Sender: TObject);
     procedure CommitMenuItemClick(Sender: TObject);
     procedure DiffMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -60,14 +67,19 @@ type
     procedure RevertMenuItemClick(Sender: TObject);
     procedure QuitMenuItemClick(Sender: TObject);
     procedure UpdateMenuItemClick(Sender: TObject);
+    procedure btnGoClick(Sender: TObject);
+    procedure ShellListViewDblClick(Sender: TObject);
+    procedure ShellTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     { private declarations }
+    procedure ShowDirectory(ListDir: string);
   public
     { public declarations }
   end;
 
 var
   MainForm: TMainForm;
+  CurrentDirectory: string;
 
 implementation
 
@@ -79,6 +91,111 @@ uses
 
 { TMainForm }
 
+procedure TMainForm.btnGoClick(Sender: TObject);
+begin
+  if DirectoryExistsUTF8(edtPath.Text) then
+    ShowDirectory(edtPath.Text)
+  else
+    edtPath.Text := CurrentDirectory;
+end;
+
+procedure TMainForm.ShellListViewDblClick(Sender: TObject);
+var
+  AProcess: TProcess;
+begin
+  if ShellListView.Selected.ImageIndex = 1 then
+    ShowDirectory(IncludeTrailingPathDelimiter(
+      IncludeTrailingPathDelimiter(CurrentDirectory) + ShellListView.Selected.Caption))
+  else
+  begin
+    AProcess := TProcess.Create(nil);
+    AProcess.Executable := IncludeTrailingPathDelimiter(CurrentDirectory) +
+      ShellListView.Selected.Caption;
+    AProcess.Execute;
+    AProcess.Free;
+  end;
+
+  // we have used ShellExecute to make things easier (from ShellApi unit)
+  // but it will only work in windows
+  // use TProcess for a cross platform way
+end;
+
+procedure TMainForm.ShellTreeViewChange(Sender: TObject; Node: TTreeNode);
+begin
+  ShowDirectory(ShellTreeView.Path);
+end;
+
+procedure TMainForm.ShowDirectory(ListDir: string);
+var
+  Info: TSearchRec;
+  Count: longint;
+  li: TListItem;
+  FileTime: TDateTime;
+
+begin
+
+  ListDir := IncludeTrailingPathDelimiter(ListDir);
+  edtPath.Text := ListDir;
+  CurrentDirectory := ListDir;
+  Count := 0;
+  ShellListView.Items.Clear;
+
+  ShellListView.Items.BeginUpdate;
+
+  // This is a try block which finally runs EndUpdate
+  try
+
+    // if we have found a file...
+    if FindFirstUTF8(ListDir + '*', faAnyFile and faDirectory, Info) = 0 then
+    begin
+
+      repeat
+
+        // we increase the count so that we can show it later
+        Inc(Count);
+
+        // we do stuff with the file entry we found
+        with Info do
+        begin
+
+          if (Name <> '.') and (Name <> '..') then
+          begin
+
+            li := ShellListView.Items.Add;
+            li.Caption := Info.Name;
+
+            // If we find a folder
+            if (Attr and faDirectory) <> 0 then
+            begin
+              li.ImageIndex := 1;
+              li.SubItems.Add('--'); // folders can't show size
+            end
+            // if we find a file
+            else
+            begin
+              li.ImageIndex := 2;
+              li.SubItems.Add(ConvertBytes(Info.Size));
+            end;
+
+            FileTime := FileDateToDateTime(Info.Time);
+            li.SubItems.Add(FormatDateTime('c', FileTime));
+          end;
+
+        end;
+
+      until FindNextUTF8(info) <> 0;
+
+    end;
+
+  finally
+    ShellListView.Items.EndUpdate;
+  end;
+
+  // we are done with file list
+  FindCloseUTF8(Info);
+  StatusBar.SimpleText := IntToStr(Count) + ' items';
+end;
+
 procedure TMainForm.QuitMenuItemClick(Sender: TObject);
 begin
   Close;
@@ -86,7 +203,8 @@ end;
 
 procedure TMainForm.UpdateMenuItemClick(Sender: TObject);
 begin
-  ShowSVNUpdateFrm(ShellTreeView.Path, SVNExecutable + ' update "' + ShellTreeView.Path + '" --non-interactive');
+  ShowSVNUpdateFrm(ShellTreeView.Path, SVNExecutable + ' update "' +
+    ShellTreeView.Path + '" --non-interactive');
 end;
 
 procedure TMainForm.LogMenuItemClick(Sender: TObject);
@@ -102,7 +220,7 @@ begin
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
     begin
-      filename := IncludeTrailingPathDelimiter(ShellListView.Root) +
+      filename := IncludeTrailingPathDelimiter(ShellTreeView.Path) +
         ShellListView.Items.Item[i].Caption;
 
       if FileExists(filename) then
@@ -118,7 +236,7 @@ begin
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
     begin
-      filename := IncludeTrailingPathDelimiter(ShellListView.Root) +
+      filename := IncludeTrailingPathDelimiter(ShellTreeView.Path) +
         ShellListView.Items.Item[i].Caption;
 
       if FileExists(filename) then
@@ -135,7 +253,7 @@ begin
 
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
-      fl.Append(IncludeTrailingPathDelimiter(ShellListView.Root) +
+      fl.Append(IncludeTrailingPathDelimiter(ShellTreeView.Path) +
         ShellListView.Items.Item[i].Caption);
 
   ShowSVNDiffFrm('', fl);
@@ -209,6 +327,11 @@ begin
   ShowSVNCheckoutFrm(ShellTreeView.Path);
 end;
 
+procedure TMainForm.CleanupMenuItemClick(Sender: TObject);
+begin
+  ExecuteSvnCommand('cleanup', ShellTreeView.Path, ShellTreeView.Path);
+end;
+
 procedure TMainForm.AddMenuItemClick(Sender: TObject);
 begin
   if Sender.ClassName = 'TShellTreeView' then
@@ -216,7 +339,7 @@ begin
     //add folder recursively
 
   end
-  else
+  else;
 
 end;
 

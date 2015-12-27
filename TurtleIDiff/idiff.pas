@@ -76,7 +76,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Math, FPImage, IntfGraphics, LCLType;
+  Math, Utils, FPImage, IntfGraphics, LCLType;
 
 procedure ShowIDiffForm(ALeftImgFile, ARightImgFile: string);
 begin
@@ -267,22 +267,6 @@ begin
 end;
 
 procedure TIDiffForm.Initialize(Data: PtrInt);
-
-  function ConvertBytes(Bytes: int64): string;
-  const
-    Description: array [0 .. 8] of string =
-      ('Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
-  var
-    i: integer;
-  begin
-    i := 0;
-
-    while Bytes > IntPower(1024, i + 1) do
-      Inc(i);
-
-    Result := FormatFloat('###0.##', Bytes / IntPower(1024, i)) + ' ' + Description[i];
-  end;
-
 var
   li: TListItem;
 begin

@@ -47,7 +47,7 @@
         <PackageName Value="LCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -125,8 +125,13 @@
         <Filename Value="../TurtleIDiff/idiff.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="idiff"/>
+        <UnitName Value="IDiff"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="utils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Utils"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

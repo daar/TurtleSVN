@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, Main, svnstatusform, svndiffform, svnupdateform, svnaddprojectform,
-  svnclasses, svnlogform, svncommitform, SVNCheckout, fdiffer, idiff;
+  svnclasses, svnlogform, svncommitform, SVNCheckout, fdiffer, idiff, Utils;
 
 {$R *.res}
 
