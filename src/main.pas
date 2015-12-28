@@ -5,7 +5,7 @@ unit Main;
 interface
 
 uses
-  Classes, Forms, Controls, ShellCtrls, SysUtils, Process,
+  Classes, Forms, Controls, ShellCtrls, SysUtils, types, Process,
   ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, Utils;
 
 type
@@ -64,6 +64,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
+    procedure PUPMenuPopup(Sender: TObject);
     procedure RevertMenuItemClick(Sender: TObject);
     procedure QuitMenuItemClick(Sender: TObject);
     procedure UpdateMenuItemClick(Sender: TObject);
@@ -72,6 +73,8 @@ type
     procedure ShellTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     { private declarations }
+    PopupComponent: string;
+    PopupPosition: TPoint;
     procedure ShowDirectory(ListDir: string);
   public
     { public declarations }
@@ -109,9 +112,8 @@ begin
   else
   begin
     AProcess := TProcess.Create(nil);
-    AProcess.Executable := 'gnome-open';
-    AProcess.Parameters.Add(
-    IncludeTrailingPathDelimiter(CurrentDirectory) +
+    AProcess.Executable := 'xdg-open';
+    AProcess.Parameters.Add(IncludeTrailingPathDelimiter(CurrentDirectory) +
       ShellListView.Selected.Caption);
     AProcess.Execute;
     AProcess.Free;
@@ -131,32 +133,27 @@ var
   FileTime: TDateTime;
 
 begin
-
   ListDir := IncludeTrailingPathDelimiter(ListDir);
   edtPath.Text := ListDir;
   CurrentDirectory := ListDir;
   Count := 0;
-  ShellListView.Items.Clear;
 
+  ShellListView.Items.Clear;
   ShellListView.Items.BeginUpdate;
 
   // This is a try block which finally runs EndUpdate
   try
-
     // if we have found a file...
     if FindFirstUTF8(ListDir + '*', faAnyFile and faDirectory, Info) = 0 then
     begin
-
       repeat
-
         // we increase the count so that we can show it later
         Inc(Count);
 
         // we do stuff with the file entry we found
         with Info do
         begin
-
-          if (Name <> '.') and (Name <> '..') then
+          //if (Name <> '.') and (Name <> '..') then
           begin
 
             li := ShellListView.Items.Add;
@@ -178,16 +175,15 @@ begin
             FileTime := FileDateToDateTime(Info.Time);
             li.SubItems.Add(FormatDateTime('c', FileTime));
           end;
-
         end;
-
       until FindNextUTF8(info) <> 0;
-
     end;
 
   finally
     ShellListView.Items.EndUpdate;
   end;
+
+  ShellListView.AlphaSort;
 
   // we are done with file list
   FindCloseUTF8(Info);
@@ -200,9 +196,28 @@ begin
 end;
 
 procedure TMainForm.UpdateMenuItemClick(Sender: TObject);
+var
+  folder: string;
+  pt: TPoint;
+  li: TListItem;
 begin
-  ShowSVNUpdateFrm(ShellTreeView.Path, SVNExecutable + ' update "' +
-    ShellTreeView.Path + '" --non-interactive');
+  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+
+  if PopupComponent = 'TListView' then
+  begin
+    //get listview item from mouse position, this way
+    //even when not selected the update can be executed
+    pt := ShellListView.ScreenToClient(PopupPosition);
+    li := ShellListView.GetItemAt(pt.x, pt.y);
+
+    folder := folder + li.Caption;
+
+    //in case a file was selected, we will update the folder it belongs to
+    if not DirectoryExists(folder) then
+      folder := ExtractFilePath(folder);
+  end;
+
+  ShowSVNUpdateFrm(folder, Format('%s update "%s" --non-interactive', [SVNExecutable, folder]));
 end;
 
 procedure TMainForm.LogMenuItemClick(Sender: TObject);
@@ -224,6 +239,20 @@ begin
       if FileExists(filename) then
         ExecuteSvnCommand('remove --keep-local', ExtractFilePath(filename), filename);
     end;
+end;
+
+procedure TMainForm.PUPMenuPopup(Sender: TObject);
+begin
+  //add here context sensitive menu's
+  PopupComponent := TPopupMenu(Sender).PopupComponent.ClassName;
+  PopupPosition := Mouse.CursorPos;
+
+  if PopupComponent = 'TShellTreeView' then
+  begin
+    //only treeview items here
+  end
+  else
+    //only listview items here
 end;
 
 procedure TMainForm.RevertMenuItemClick(Sender: TObject);
@@ -316,8 +345,28 @@ begin
 end;
 
 procedure TMainForm.CommitMenuItemClick(Sender: TObject);
+var
+  folder: string;
+  pt: TPoint;
+  li: TListItem;
 begin
-  ShowSVNStatusFrm(ShellTreeView.Path);
+  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+
+  if PopupComponent = 'TListView' then
+  begin
+    //get listview item from mouse position, this way
+    //even when not selected the update can be executed
+    pt := ShellListView.ScreenToClient(PopupPosition);
+    li := ShellListView.GetItemAt(pt.x, pt.y);
+
+    folder := folder + li.Caption;
+
+    //in case a file was selected, we will commit the folder it belongs to
+    if not DirectoryExists(folder) then
+      folder := ExtractFilePath(folder);
+  end;
+
+  ShowSVNStatusFrm(folder);
 end;
 
 procedure TMainForm.CheckOutMenuItemClick(Sender: TObject);
