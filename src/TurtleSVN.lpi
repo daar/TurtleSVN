@@ -140,7 +140,7 @@
       <Filename Value="turtlesvn"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/ide"/>
       <OtherUnitFiles Value="../TurtleMerge;../TurtleIDiff"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
@@ -151,6 +151,11 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <ExecuteBefore>
+        <Command Value="svn2revisioninc ."/>
+      </ExecuteBefore>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

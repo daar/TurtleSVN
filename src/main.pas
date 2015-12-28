@@ -15,6 +15,8 @@ type
   TMainForm = class(TForm)
     btnGo: TBitBtn;
     edtPath: TEdit;
+    HelpMenuItem: TMenuItem;
+    AboutMenuItem: TMenuItem;
     ShellListView: TListView;
     ImageList1: TImageList;
     ImageList2: TImageList;
@@ -41,7 +43,7 @@ type
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
     MenuItem23: TMenuItem;
-    MenuItem24: TMenuItem;
+    SVNAboutMenuItem: TMenuItem;
     DeleteMenuItem: TMenuItem;
     MenuItem4: TMenuItem;
     LogMenuItem: TMenuItem;
@@ -56,6 +58,7 @@ type
     QuitMenuItem: TMenuItem;
     StatusBar: TStatusBar;
     PUPMenu: TPopupMenu;
+    procedure AboutMenuItemClick(Sender: TObject);
     procedure AddMenuItemClick(Sender: TObject);
     procedure CheckOutMenuItemClick(Sender: TObject);
     procedure CleanupMenuItemClick(Sender: TObject);
@@ -64,6 +67,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
+    procedure SVNAboutMenuItemClick(Sender: TObject);
     procedure PUPMenuPopup(Sender: TObject);
     procedure RevertMenuItemClick(Sender: TObject);
     procedure QuitMenuItemClick(Sender: TObject);
@@ -90,7 +94,7 @@ implementation
 
 uses
   SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
-  SVNCheckout;
+  SVNCheckout, AboutFrm;
 
 { TMainForm }
 
@@ -217,7 +221,8 @@ begin
       folder := ExtractFilePath(folder);
   end;
 
-  ShowSVNUpdateFrm(folder, Format('%s update "%s" --non-interactive', [SVNExecutable, folder]));
+  ShowSVNUpdateFrm(folder, Format('%s update "%s" --non-interactive',
+    [SVNExecutable, folder]));
 end;
 
 procedure TMainForm.LogMenuItemClick(Sender: TObject);
@@ -241,6 +246,11 @@ begin
     end;
 end;
 
+procedure TMainForm.SVNAboutMenuItemClick(Sender: TObject);
+begin
+  ShowAboutForm;
+end;
+
 procedure TMainForm.PUPMenuPopup(Sender: TObject);
 begin
   //add here context sensitive menu's
@@ -251,24 +261,36 @@ begin
   begin
     //only treeview items here
   end
-  else
-    //only listview items here
+  else;
+  //only listview items here
 end;
 
 procedure TMainForm.RevertMenuItemClick(Sender: TObject);
 var
   i: integer;
   filename: string;
+  Path: string;
 begin
-  for i := 0 to ShellListView.Items.Count - 1 do
-    if ShellListView.Items.Item[i].Selected then
-    begin
-      filename := IncludeTrailingPathDelimiter(ShellTreeView.Path) +
-        ShellListView.Items.Item[i].Caption;
+  Path := IncludeTrailingPathDelimiter(ShellTreeView.Path);
 
-      if FileExists(filename) then
-        ExecuteSvnCommand('revert', ExtractFilePath(filename), filename);
-    end;
+  if PopupComponent = 'TListView' then
+  begin
+    for i := 0 to ShellListView.Items.Count - 1 do
+      if ShellListView.Items.Item[i].Selected then
+      begin
+        filename := Path + ShellListView.Items.Item[i].Caption;
+
+        //check if item is a folder, if so then do a recursive revert
+        if DirectoryExists(filename) then
+          ExecuteSvnCommand('revert -R', filename, filename)
+        else
+          //check if item is an existing file, if so then ad to file list
+          if FileExists(Path + ShellListView.Items.Item[i].Caption) then
+            ExecuteSvnCommand('revert', filename, filename);
+      end;
+  end
+  else
+    ExecuteSvnCommand('revert -R', filename, filename);
 end;
 
 procedure TMainForm.DiffMenuItemClick(Sender: TObject);
@@ -388,6 +410,11 @@ begin
   end
   else;
 
+end;
+
+procedure TMainForm.AboutMenuItemClick(Sender: TObject);
+begin
+  ShowAboutForm;
 end;
 
 end.
