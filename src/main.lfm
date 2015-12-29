@@ -1,14 +1,14 @@
 object MainForm: TMainForm
-  Left = 474
+  Left = 652
   Height = 462
-  Top = 193
+  Top = 252
   Width = 629
   Caption = 'TurtleSVN'
   ClientHeight = 462
   ClientWidth = 629
   Menu = MainMenu1
   OnCreate = FormCreate
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.7'
   WindowState = wsMaximized
   object StatusBar: TStatusBar
     Left = 0
@@ -1367,6 +1367,7 @@ object MainForm: TMainForm
     end
     object CleanupMenuItem: TMenuItem
       Caption = 'Cleanup'
+      ImageIndex = 4
       OnClick = CleanupMenuItemClick
     end
     object AddMenuItem: TMenuItem

@@ -66,6 +66,7 @@
         <ComponentName Value="SVNStatusFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNStatusForm"/>
       </Unit2>
       <Unit3>
         <Filename Value="svndiffform.pas"/>
@@ -73,6 +74,7 @@
         <ComponentName Value="SVNDiffFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNDiffForm"/>
       </Unit3>
       <Unit4>
         <Filename Value="svnupdateform.pas"/>
@@ -80,6 +82,7 @@
         <ComponentName Value="SVNUpdateFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNUpdateForm"/>
       </Unit4>
       <Unit5>
         <Filename Value="svnaddprojectform.pas"/>
@@ -105,6 +108,7 @@
         <ComponentName Value="SVNCommitFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNCommitForm"/>
       </Unit8>
       <Unit9>
         <Filename Value="svncheckout.pas"/>

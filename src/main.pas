@@ -5,8 +5,9 @@ unit Main;
 interface
 
 uses
-  Classes, Forms, Controls, ShellCtrls, SysUtils, types, Process,
+  Classes, Forms, Controls, ShellCtrls, SysUtils, Types, Process,
   ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, LCLIntf,
+  LazFileUtils,
   //TurtleSVN
   Utils;
 
@@ -277,7 +278,8 @@ end;
 procedure TMainForm.RevertMenuItemClick(Sender: TObject);
 var
   i: integer;
-  filename: string;
+  filename: string = '';
+  filelist: string = '';
   Path: string;
 begin
   Path := IncludeTrailingPathDelimiter(ShellTreeView.Path);
@@ -287,21 +289,22 @@ begin
     for i := 0 to ShellListView.Items.Count - 1 do
       if ShellListView.Items.Item[i].Selected then
       begin
-        filename := Path + ShellListView.Items.Item[i].Caption;
+        filelist := filelist + ' ' + Path + ShellListView.Items.Item[i].Caption;
 
-        //check if item is a folder, if so then do a recursive revert
-        if DirectoryExists(filename) then
-          ExecuteSvnCommand('revert -R', filename, filename)
-        else
-        begin
-          //check if item is an existing file, if so then ad to file list
-          if FileExists(Path + ShellListView.Items.Item[i].Caption) then
-            ExecuteSvnCommand('revert', filename, filename);
-        end;
+        ////check if item is a folder, if so then do a recursive revert
+        //if DirectoryExists(filename) then
+        //  SVNUpdateForm(filename, 'revert -R')
+        //else
+        //begin
+        //  //check if item is an existing file, if so then ad to file list
+        //  if FileExists(Path + ShellListView.Items.Item[i].Caption) then
+        //    SVNUpdateForm(filename, 'revert -R');
+        //end;
       end;
+    ShowSVNUpdateFrm('', SVNExecutable + ' revert -R ' + filelist);
   end
   else
-    ExecuteSvnCommand('revert -R', filename, filename);
+    ShowSVNUpdateFrm('', SVNExecutable + ' revert -R ' + filename);
 end;
 
 procedure TMainForm.DiffMenuItemClick(Sender: TObject);
@@ -413,14 +416,21 @@ begin
 end;
 
 procedure TMainForm.AddMenuItemClick(Sender: TObject);
+var
+  i: Integer;
+  filelist: string = '';
 begin
   if Sender.ClassName = 'TShellTreeView' then
-  begin
     //add folder recursively
+    ShowSVNUpdateFrm(ShellTreeView.Path, Format('%s add %s', [SVNExecutable, ShellTreeView.Path]))
+  else
+  begin
+    for i := 0 to ShellListView.Items.Count - 1 do
+      if ShellListView.Items.Item[i].Selected then
+        filelist := filelist + ' ' + IncludeTrailingPathDelimiter(edtPath.Text) + ShellListView.Items.Item[i].Caption;
 
-  end
-  else;
-
+    ShowSVNUpdateFrm(edtPath.Text, Format('%s add %s', [SVNExecutable, filelist]));
+  end;
 end;
 
 procedure TMainForm.AboutMenuItemClick(Sender: TObject);
