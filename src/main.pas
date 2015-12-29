@@ -6,7 +6,9 @@ interface
 
 uses
   Classes, Forms, Controls, ShellCtrls, SysUtils, types, Process,
-  ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, Utils;
+  ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, LCLIntf,
+  //TurtleSVN
+  Utils;
 
 type
 
@@ -17,6 +19,7 @@ type
     edtPath: TEdit;
     HelpMenuItem: TMenuItem;
     AboutMenuItem: TMenuItem;
+    OnlineHelpMenuItem: TMenuItem;
     ShellListView: TListView;
     ImageList1: TImageList;
     ImageList2: TImageList;
@@ -33,7 +36,7 @@ type
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
+    SVNHelpMenuItem: TMenuItem;
     MenuItem19: TMenuItem;
     CheckOutMenuItem: TMenuItem;
     AddMenuItem: TMenuItem;
@@ -67,6 +70,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
+    procedure SVNHelpMenuItemClick(Sender: TObject);
     procedure SVNAboutMenuItemClick(Sender: TObject);
     procedure PUPMenuPopup(Sender: TObject);
     procedure RevertMenuItemClick(Sender: TObject);
@@ -246,6 +250,11 @@ begin
     end;
 end;
 
+procedure TMainForm.SVNHelpMenuItemClick(Sender: TObject);
+begin
+  OpenURL('https://github.com/daar/TurtleSVN/wiki');
+end;
+
 procedure TMainForm.SVNAboutMenuItemClick(Sender: TObject);
 begin
   ShowAboutForm;
@@ -284,9 +293,11 @@ begin
         if DirectoryExists(filename) then
           ExecuteSvnCommand('revert -R', filename, filename)
         else
+        begin
           //check if item is an existing file, if so then ad to file list
           if FileExists(Path + ShellListView.Items.Item[i].Caption) then
             ExecuteSvnCommand('revert', filename, filename);
+        end;
       end;
   end
   else

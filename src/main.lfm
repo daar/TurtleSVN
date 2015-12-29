@@ -1213,8 +1213,8 @@ object MainForm: TMainForm
     }
   end
   object MainMenu1: TMainMenu
-    left = 272
-    top = 97
+    left = 240
+    top = 288
     object FileMenuItem: TMenuItem
       Caption = '&File'
       object QuitMenuItem: TMenuItem
@@ -1224,6 +1224,10 @@ object MainForm: TMainForm
     end
     object HelpMenuItem: TMenuItem
       Caption = 'Help'
+      object OnlineHelpMenuItem: TMenuItem
+        Caption = 'Online help'
+        OnClick = SVNHelpMenuItemClick
+      end
       object AboutMenuItem: TMenuItem
         Caption = 'About'
         OnClick = AboutMenuItemClick
@@ -1999,9 +2003,8 @@ object MainForm: TMainForm
     object MenuItem19: TMenuItem
       Caption = '-'
     end
-    object MenuItem18: TMenuItem
+    object SVNHelpMenuItem: TMenuItem
       Caption = 'Help'
-      Enabled = False
       Bitmap.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000064000000640000000000000000000000000000000000
@@ -2039,6 +2042,7 @@ object MainForm: TMainForm
         0000000000000000000000000000000000000000000000000000
       }
       ImageIndex = 14
+      OnClick = SVNHelpMenuItemClick
     end
     object MenuItem23: TMenuItem
       Caption = 'Settings'

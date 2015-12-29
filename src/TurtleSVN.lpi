@@ -66,7 +66,6 @@
         <ComponentName Value="SVNStatusFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="SVNStatusForm"/>
       </Unit2>
       <Unit3>
         <Filename Value="svndiffform.pas"/>
@@ -92,7 +91,6 @@
       <Unit6>
         <Filename Value="svnclasses.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SVNClasses"/>
       </Unit6>
       <Unit7>
         <Filename Value="svnlogform.pas"/>
@@ -100,7 +98,6 @@
         <ComponentName Value="SVNLogFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="SVNLogForm"/>
       </Unit7>
       <Unit8>
         <Filename Value="svncommitform.pas"/>
@@ -119,18 +116,15 @@
         <Filename Value="../TurtleMerge/fdiffer.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="fDiffer"/>
       </Unit10>
       <Unit11>
         <Filename Value="../TurtleIDiff/idiff.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="IDiff"/>
       </Unit11>
       <Unit12>
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils"/>
       </Unit12>
     </Units>
   </ProjectOptions>
