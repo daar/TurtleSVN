@@ -48,7 +48,7 @@ type
     SettingsMenuItem: TMenuItem;
     SVNAboutMenuItem: TMenuItem;
     DeleteMenuItem: TMenuItem;
-    MenuItem4: TMenuItem;
+    RenameMenuItem: TMenuItem;
     LogMenuItem: TMenuItem;
     UpdateToRevisionMenuItem: TMenuItem;
     MenuItem7: TMenuItem;
@@ -71,6 +71,7 @@ type
     procedure LocalModificationMenuItemClick(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
+    procedure RenameMenuItemClick(Sender: TObject);
     procedure SettingsMenuItemClick(Sender: TObject);
     procedure SVNHelpMenuItemClick(Sender: TObject);
     procedure SVNAboutMenuItemClick(Sender: TObject);
@@ -101,7 +102,8 @@ implementation
 
 uses
   Utils, SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
-  SVNCheckout, SettingsDialog, SVNUpdateToRevision, AboutFrm, SVNLocalStatusForm;
+  SVNCheckout, SettingsDialog, SVNUpdateToRevision, AboutFrm, SVNRename,
+  SVNLocalStatusForm;
 
 { TMainForm }
 
@@ -265,6 +267,22 @@ begin
       if FileExists(filename) then
         ExecuteSvnCommand('remove --keep-local', ExtractFilePath(filename), filename);
     end;
+end;
+
+procedure TMainForm.RenameMenuItemClick(Sender: TObject);
+var
+  i: Integer;
+  filelist: string = '';
+begin
+  if PopupComponent = 'TShellTreeView' then
+    //add folder recursively
+    ShowSVNRenameFrm(ShellTreeView.Path)
+  else
+  begin
+    if Assigned(ShellListView.Selected) then
+    for i := 0 to ShellListView.Items.Count - 1 do
+      ShowSVNRenameFrm(ShellListView.Selected.Caption)
+  end;
 end;
 
 procedure TMainForm.SettingsMenuItemClick(Sender: TObject);

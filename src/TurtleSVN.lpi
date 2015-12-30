@@ -50,7 +50,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -171,6 +171,13 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SVNUpdateToRevision"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="svnrename.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SVNRenameForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNRename"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
