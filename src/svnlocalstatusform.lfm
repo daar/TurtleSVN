@@ -1,0 +1,130 @@
+object SVNLocalStatusFrm: TSVNLocalStatusFrm
+  Left = 415
+  Height = 470
+  Top = 166
+  Width = 751
+  Caption = 'SVNLocalStatusFrm'
+  ClientHeight = 470
+  ClientWidth = 751
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.7'
+  object SVNFileListView: TListView
+    Left = 6
+    Height = 417
+    Top = 5
+    Width = 739
+    Align = alClient
+    Anchors = []
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    Checkboxes = True
+    Columns = <    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 10
+      end    
+      item
+        AutoSize = True
+        Width = 641
+      end>
+    PopupMenu = PopupMenu1
+    RowSelect = True
+    SortColumn = 1
+    SortType = stText
+    TabOrder = 0
+    ViewStyle = vsReport
+    OnColumnClick = SVNFileListViewColumnClick
+    OnDblClick = mnuShowDiffClick
+  end
+  object Splitter: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 5
+    Top = 0
+    Width = 751
+    Align = alTop
+    ResizeAnchor = akTop
+  end
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 36
+    Top = 428
+    Width = 739
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbOK]
+  end
+  object PopupMenu1: TPopupMenu
+    Images = ImageList
+    OnPopup = PopupMenu1Popup
+    left = 53
+    top = 213
+    object mnuShowDiff: TMenuItem
+      Caption = 'svn diff'
+      ImageIndex = 0
+      OnClick = mnuShowDiffClick
+    end
+    object mnuOpen: TMenuItem
+      Caption = 'open'
+      OnClick = mnuOpenClick
+    end
+    object mnuAdd: TMenuItem
+      Caption = 'svn add'
+      OnClick = mnuAddClick
+    end
+    object mnuRemove: TMenuItem
+      Caption = 'svn remove --keep-local'
+      OnClick = mnuRemoveClick
+    end
+    object mnuRevert: TMenuItem
+      Caption = 'svn revert'
+      ImageIndex = 1
+      OnClick = mnuRevertClick
+    end
+  end
+  object ImageList: TImageList
+    left = 88
+    top = 213
+  end
+end

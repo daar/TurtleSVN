@@ -167,6 +167,7 @@
         <Filename Value="svnupdatetorevision.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="SVNUpdateToRevisionForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SVNUpdateToRevision"/>
       </Unit17>

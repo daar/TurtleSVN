@@ -1574,9 +1574,10 @@ object MainForm: TMainForm
       }
       ImageIndex = 2
     end
-    object MenuItem9: TMenuItem
+    object LocalModificationMenuItem: TMenuItem
       Caption = 'Check for modifications'
-      Enabled = False
+      ImageIndex = 29
+      OnClick = LocalModificationMenuItemClick
     end
     object MenuItem8: TMenuItem
       Caption = 'Revision graph'

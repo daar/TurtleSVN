@@ -7,9 +7,7 @@ interface
 uses
   Classes, Forms, Controls, ShellCtrls, SysUtils, Types, Process,
   ExtCtrls, ComCtrls, Menus, StdCtrls, Buttons, FileUtil, LCLIntf,
-  LazFileUtils,
-  //TurtleSVN
-  Utils;
+  LazFileUtils;
 
 type
 
@@ -55,7 +53,7 @@ type
     UpdateToRevisionMenuItem: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
+    LocalModificationMenuItem: TMenuItem;
     Splitter1: TSplitter;
     ShellTreeView: TShellTreeView;
     UpdateMenuItem: TMenuItem;
@@ -70,6 +68,7 @@ type
     procedure CommitMenuItemClick(Sender: TObject);
     procedure DiffMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure LocalModificationMenuItemClick(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
     procedure SettingsMenuItemClick(Sender: TObject);
@@ -101,8 +100,8 @@ implementation
 {$R *.lfm}
 
 uses
-  SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
-  SVNCheckout, AboutFrm, SettingsDialog, SVNUpdateToRevision;
+  Utils, SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
+  SVNCheckout, SettingsDialog, SVNUpdateToRevision, AboutFrm, SVNLocalStatusForm;
 
 { TMainForm }
 
@@ -400,6 +399,31 @@ begin
   end;
   Node.Selected := True;
   Node.Expand(False);
+end;
+
+procedure TMainForm.LocalModificationMenuItemClick(Sender: TObject);
+var
+  folder: string;
+  pt: TPoint;
+  li: TListItem;
+begin
+  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+
+  if PopupComponent = 'TListView' then
+  begin
+    //get listview item from mouse position, this way
+    //even when not selected the update can be executed
+    pt := ShellListView.ScreenToClient(PopupPosition);
+    li := ShellListView.GetItemAt(pt.x, pt.y);
+
+    folder := folder + li.Caption;
+
+    //in case a file was selected, we will commit the folder it belongs to
+    if not DirectoryExists(folder) then
+      folder := ExtractFilePath(folder);
+  end;
+
+  ShowSVNLocalStatusFrm(folder);
 end;
 
 procedure TMainForm.CommitMenuItemClick(Sender: TObject);
