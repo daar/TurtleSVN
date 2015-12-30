@@ -131,7 +131,10 @@
       <Unit11>
         <Filename Value="../TurtleIDiff/idiff.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="IDiffForm"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="IDiff"/>
       </Unit11>
       <Unit12>
         <Filename Value="utils.pas"/>

@@ -63,18 +63,20 @@ procedure TSVNRenameForm.SelectLocationButtonClick(Sender: TObject);
 begin
   SelectDirectoryDialog.FileName := NewLocationEdit.Text;
   if SelectDirectoryDialog.Execute then
-    NewLocationEdit.Text := SelectDirectoryDialog.FileName;
+    NewLocationEdit.Text := IncludeTrailingPathDelimiter(
+      SelectDirectoryDialog.FileName) + ExtractFileName(NewLocationEdit.Text);
 end;
 
 procedure TSVNRenameForm.OKButtonClick(Sender: TObject);
 begin
   if MoveCheckBox.Checked then
-    ShowSVNCommitFrm(Format('%s move %s %s', [SVNExecutable, OriginalLocationEdit.Text, NewLocationEdit.Text]))
+    ShowSVNCommitFrm(Format('%s move %s %s', [SVNExecutable,
+      OriginalLocationEdit.Text, NewLocationEdit.Text]))
   else
-    ShowSVNCommitFrm(Format('%s copy %s %s', [SVNExecutable, OriginalLocationEdit.Text, NewLocationEdit.Text]));
+    ShowSVNCommitFrm(Format('%s copy %s %s', [SVNExecutable,
+      OriginalLocationEdit.Text, NewLocationEdit.Text]));
 
   Close;
 end;
 
 end.
-

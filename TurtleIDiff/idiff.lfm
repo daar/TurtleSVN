@@ -483,7 +483,7 @@ object IDiffForm: TIDiffForm
   OnCreate = FormCreate
   OnResize = FormResize
   Position = poScreenCenter
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.7'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 19

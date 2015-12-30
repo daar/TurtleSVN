@@ -123,14 +123,12 @@ begin
     exit;
 
   if ShellListView.Selected.ImageIndex = 1 then
-    ShowDirectory(IncludeTrailingPathDelimiter(
-      IncludeTrailingPathDelimiter(CurrentDirectory) + ShellListView.Selected.Caption))
+    ShowDirectory(IncludeTrailingPathDelimiter(CurrentDirectory + ShellListView.Selected.Caption))
   else
   begin
     AProcess := TProcess.Create(nil);
     AProcess.Executable := 'xdg-open';
-    AProcess.Parameters.Add(IncludeTrailingPathDelimiter(CurrentDirectory) +
-      ShellListView.Selected.Caption);
+    AProcess.Parameters.Add(CurrentDirectory + ShellListView.Selected.Caption);
     AProcess.Execute;
     AProcess.Free;
   end;
@@ -144,12 +142,18 @@ end;
 procedure TMainForm.UpdateToRevisionMenuItemClick(Sender: TObject);
 begin
   if PopupComponent = 'TShellTreeView' then
+  begin
     //update folder recursively
-    ShowSVNUpdateToRevisionFrm(ShellTreeView.Path)
+    ShowSVNUpdateToRevisionFrm(CurrentDirectory);
+    ShowDirectory(CurrentDirectory);
+  end
   else
   begin
     if Assigned(ShellListView.Selected) then
-      ShowSVNUpdateToRevisionFrm(IncludeTrailingPathDelimiter(edtPath.Text) + ShellListView.Selected.Caption);
+    begin
+      ShowSVNUpdateToRevisionFrm(CurrentDirectory + ShellListView.Selected.Caption);
+      ShowDirectory(CurrentDirectory);
+    end;
   end;
 end;
 
@@ -228,7 +232,7 @@ var
   pt: TPoint;
   li: TListItem;
 begin
-  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+  folder := IncludeTrailingPathDelimiter(CurrentDirectory);
 
   if PopupComponent = 'TListView' then
   begin
@@ -250,7 +254,7 @@ end;
 
 procedure TMainForm.LogMenuItemClick(Sender: TObject);
 begin
-  ShowSVNLogFrm(ShellTreeView.Path);
+  ShowSVNLogFrm(CurrentDirectory);
 end;
 
 procedure TMainForm.DeleteMenuItemClick(Sender: TObject);
@@ -261,7 +265,7 @@ begin
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
     begin
-      filename := IncludeTrailingPathDelimiter(ShellTreeView.Path) +
+      filename := IncludeTrailingPathDelimiter(CurrentDirectory) +
         ShellListView.Items.Item[i].Caption;
 
       if FileExists(filename) then
@@ -270,18 +274,19 @@ begin
 end;
 
 procedure TMainForm.RenameMenuItemClick(Sender: TObject);
-var
-  i: Integer;
-  filelist: string = '';
 begin
   if PopupComponent = 'TShellTreeView' then
-    //add folder recursively
-    ShowSVNRenameFrm(ShellTreeView.Path)
+  begin
+    ShowSVNRenameFrm(CurrentDirectory);
+    ShowDirectory(CurrentDirectory);
+  end
   else
   begin
     if Assigned(ShellListView.Selected) then
-    for i := 0 to ShellListView.Items.Count - 1 do
-      ShowSVNRenameFrm(ShellListView.Selected.Caption)
+    begin
+      ShowSVNRenameFrm(CurrentDirectory + ShellListView.Selected.Caption);
+      ShowDirectory(CurrentDirectory);
+    end;
   end;
 end;
 
@@ -321,7 +326,7 @@ var
   filelist: string = '';
   Path: string;
 begin
-  Path := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+  Path := IncludeTrailingPathDelimiter(CurrentDirectory);
 
   if PopupComponent = 'TListView' then
   begin
@@ -355,7 +360,7 @@ begin
 
   for i := 0 to ShellListView.Items.Count - 1 do
     if ShellListView.Items.Item[i].Selected then
-      fl.Append(IncludeTrailingPathDelimiter(ShellTreeView.Path) +
+      fl.Append(IncludeTrailingPathDelimiter(CurrentDirectory) +
         ShellListView.Items.Item[i].Caption);
 
   ShowSVNDiffFrm('', fl);
@@ -425,7 +430,7 @@ var
   pt: TPoint;
   li: TListItem;
 begin
-  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+  folder := IncludeTrailingPathDelimiter(CurrentDirectory);
 
   if PopupComponent = 'TListView' then
   begin
@@ -450,7 +455,7 @@ var
   pt: TPoint;
   li: TListItem;
 begin
-  folder := IncludeTrailingPathDelimiter(ShellTreeView.Path);
+  folder := CurrentDirectory;
 
   if PopupComponent = 'TListView' then
   begin
@@ -471,12 +476,12 @@ end;
 
 procedure TMainForm.CheckOutMenuItemClick(Sender: TObject);
 begin
-  ShowSVNCheckoutFrm(ShellTreeView.Path);
+  ShowSVNCheckoutFrm(CurrentDirectory);
 end;
 
 procedure TMainForm.CleanupMenuItemClick(Sender: TObject);
 begin
-  ExecuteSvnCommand('cleanup', ShellTreeView.Path, ShellTreeView.Path);
+  ExecuteSvnCommand('cleanup', CurrentDirectory, CurrentDirectory);
 end;
 
 procedure TMainForm.AddMenuItemClick(Sender: TObject);
@@ -486,14 +491,14 @@ var
 begin
   if PopupComponent = 'TShellTreeView' then
     //add folder recursively
-    ShowSVNUpdateFrm(ShellTreeView.Path, Format('%s add %s', [SVNExecutable, ShellTreeView.Path]))
+    ShowSVNUpdateFrm(CurrentDirectory, Format('%s add %s', [SVNExecutable, CurrentDirectory]))
   else
   begin
     for i := 0 to ShellListView.Items.Count - 1 do
       if ShellListView.Items.Item[i].Selected then
-        filelist := filelist + ' ' + IncludeTrailingPathDelimiter(edtPath.Text) + ShellListView.Items.Item[i].Caption;
+        filelist := filelist + ' ' + CurrentDirectory + ShellListView.Items.Item[i].Caption;
 
-    ShowSVNUpdateFrm(edtPath.Text, Format('%s add %s', [SVNExecutable, filelist]));
+    ShowSVNUpdateFrm(CurrentDirectory, Format('%s add %s', [SVNExecutable, filelist]));
   end;
 end;
 
