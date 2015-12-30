@@ -1,0 +1,19 @@
+object GeneralOptionsFrame: TGeneralOptionsFrame
+  Left = 0
+  Height = 240
+  Top = 0
+  Width = 320
+  ClientHeight = 240
+  ClientWidth = 320
+  TabOrder = 0
+  DesignLeft = 702
+  DesignTop = 143
+  object Label1: TLabel
+    Left = 24
+    Height = 15
+    Top = 22
+    Width = 94
+    Caption = 'General options'
+    ParentColor = False
+  end
+end

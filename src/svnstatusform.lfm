@@ -11,7 +11,7 @@ object SVNStatusFrm: TSVNStatusFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.7'
   object ButtonPanel: TButtonPanel
     Left = 6
     Height = 36

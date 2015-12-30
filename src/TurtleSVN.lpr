@@ -7,8 +7,10 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Main, svnstatusform, svndiffform, svnupdateform, svnaddprojectform,
-  svnclasses, svnlogform, svncommitform, SVNCheckout, fdiffer, idiff, Utils;
+  Forms, lazcontrols, Main, svnstatusform, svndiffform, svnupdateform,
+  svnaddprojectform, svnclasses, svnlogform, svncommitform, SVNCheckout,
+  fdiffer, idiff, Utils, SettingsDialog, GeneralOptionsFrm, AdvancedOptionsFrm,
+  SettingsManager;
 
 {$R *.res}
 
@@ -17,6 +19,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TSVNCheckoutForm, SVNCheckoutForm);
+  Application.CreateForm(TSettingsForm, SettingsForm);
   Application.Run;
 end.
 

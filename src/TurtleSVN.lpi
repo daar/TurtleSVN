@@ -27,27 +27,30 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="viewerpackage"/>
+        <PackageName Value="LazControls"/>
       </Item1>
       <Item2>
-        <PackageName Value="doublecmd_common"/>
+        <PackageName Value="viewerpackage"/>
       </Item2>
       <Item3>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="doublecmd_common"/>
       </Item3>
       <Item4>
-        <PackageName Value="MultiThreadProcsLaz"/>
+        <PackageName Value="dcpcrypt"/>
       </Item4>
       <Item5>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="MultiThreadProcsLaz"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
+        <PackageName Value="SynEdit"/>
       </Item6>
+      <Item7>
+        <PackageName Value="LCL"/>
+      </Item7>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="17">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -114,7 +117,9 @@
         <Filename Value="svncheckout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="SVNCheckoutForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNCheckout"/>
       </Unit9>
       <Unit10>
         <Filename Value="../TurtleMerge/fdiffer.pas"/>
@@ -130,6 +135,32 @@
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="../settings/settingsdialog.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SettingsForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SettingsDialog"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="../settings/generaloptionsfrm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="GeneralOptionsFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="GeneralOptionsFrm"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="../settings/advancedoptionsfrm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="AdvancedOptionsFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="AdvancedOptionsFrm"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="../settings/settingsmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SettingsManager"/>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -139,7 +170,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);$(LazarusDir)/ide"/>
-      <OtherUnitFiles Value="../TurtleMerge;../TurtleIDiff"/>
+      <OtherUnitFiles Value="../TurtleMerge;../TurtleIDiff;../settings"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

@@ -1,0 +1,19 @@
+object AdvancedOptionsFrame: TAdvancedOptionsFrame
+  Left = 0
+  Height = 240
+  Top = 0
+  Width = 320
+  ClientHeight = 240
+  ClientWidth = 320
+  TabOrder = 0
+  DesignLeft = 375
+  DesignTop = 169
+  object Label1: TLabel
+    Left = 35
+    Height = 15
+    Top = 22
+    Width = 106
+    Caption = 'Advanced options'
+    ParentColor = False
+  end
+end

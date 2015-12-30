@@ -20,6 +20,7 @@ type
     edtPath: TEdit;
     HelpMenuItem: TMenuItem;
     AboutMenuItem: TMenuItem;
+    MenuItem2: TMenuItem;
     OnlineHelpMenuItem: TMenuItem;
     ShellListView: TListView;
     ImageList1: TImageList;
@@ -46,7 +47,7 @@ type
     RevertMenuItem: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
-    MenuItem23: TMenuItem;
+    SettingsMenuItem: TMenuItem;
     SVNAboutMenuItem: TMenuItem;
     DeleteMenuItem: TMenuItem;
     MenuItem4: TMenuItem;
@@ -71,6 +72,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LogMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
+    procedure SettingsMenuItemClick(Sender: TObject);
     procedure SVNHelpMenuItemClick(Sender: TObject);
     procedure SVNAboutMenuItemClick(Sender: TObject);
     procedure PUPMenuPopup(Sender: TObject);
@@ -99,7 +101,7 @@ implementation
 
 uses
   SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
-  SVNCheckout, AboutFrm;
+  SVNCheckout, AboutFrm, SettingsDialog;
 
 { TMainForm }
 
@@ -115,6 +117,9 @@ procedure TMainForm.ShellListViewDblClick(Sender: TObject);
 var
   AProcess: TProcess;
 begin
+  if not Assigned(ShellListView.Selected) then
+    exit;
+
   if ShellListView.Selected.ImageIndex = 1 then
     ShowDirectory(IncludeTrailingPathDelimiter(
       IncludeTrailingPathDelimiter(CurrentDirectory) + ShellListView.Selected.Caption))
@@ -249,6 +254,11 @@ begin
       if FileExists(filename) then
         ExecuteSvnCommand('remove --keep-local', ExtractFilePath(filename), filename);
     end;
+end;
+
+procedure TMainForm.SettingsMenuItemClick(Sender: TObject);
+begin
+  ShowSettingsFrm;
 end;
 
 procedure TMainForm.SVNHelpMenuItemClick(Sender: TObject);

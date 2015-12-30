@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ButtonPanel, ExtCtrls, INIFiles, ComCtrls;
+  ButtonPanel, ExtCtrls, ComCtrls;
 
 type
 
@@ -56,7 +56,7 @@ implementation
 {$R *.lfm}
 
 uses
-  SVNClasses, SVNUpdateForm, SVNLogForm;
+  Math, SettingsManager, SVNClasses, SVNUpdateForm, SVNLogForm;
 
 procedure ShowSVNCheckoutFrm(ACheckoutDirectory: string);
 begin
@@ -70,56 +70,34 @@ end;
 { TSVNCheckoutForm }
 
 procedure TSVNCheckoutForm.FormCreate(Sender: TObject);
-var
-  Config: TINIFile;
-  count: longint;
-  i: longint;
-  s: string;
 begin
-  try
-    Config := TINIFile.Create('turtlesvn.ini');
-
-    count := Config.ReadInteger('Checkout', 'URLCount', 0);
-
-    //limit to 100 entries
-    if count > 100 then
-      count := 100;
-
-    for i := count downto 0 do
-    begin
-      s := Config.ReadString('Checkout', 'URL' + IntToStr(i), '');
-      if s <> '' then
-        URLComboBox.Items.Add(s);
-    end;
-
-  finally
-    Config.Free;
-  end;
+  URLComboBox.Items.AddStrings(SettingsMgr.CheckoutURL);
 end;
 
 procedure TSVNCheckoutForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
-  Config: TINIFile;
-  i: integer;
+  index: integer;
   URL: TStrings;
 begin
   try
-    Config := TINIFile.Create('turtlesvn.ini');
-
     //write all URLs to INI
     URL := TStringList.Create;
-    URL.Clear;
     URL.AddStrings(URLComboBox.Items);
 
-    if URL.IndexOf(URLComboBox.Text) = -1 then
-      URL.Insert(0, URLComboBox.Text);
+    //delete a previous same mesage from the list, so we don't store duplicates
+    index := URL.IndexOf(URLComboBox.Text);
+    if index <> -1 then
+      URL.Delete(index);
 
-    Config.WriteInteger('Checkout', 'URLCount', URL.Count);
-    for i := 0 to URL.Count - 1 do
-      Config.WriteString('Checkout', 'URL' + IntToStr(i + 1), URL[i]);
+    URL.Insert(0, URLComboBox.Text);
+
+    //limit to 100 entries
+    while URL.Count > 99 do
+      URL.Delete(100);
+
+    SettingsMgr.CheckoutURL := URL;
   finally
     URL.Free;
-    Config.Free;
   end;
 end;
 

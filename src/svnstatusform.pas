@@ -26,7 +26,7 @@ uses
   Classes, SysUtils, Process, LCLProc,
   Forms, Controls, Dialogs, ComCtrls, StdCtrls, ButtonPanel, ExtCtrls, Menus,
   // LazUtils
-  FileUtil, LazFileUtils, INIFiles,
+  FileUtil, LazFileUtils,
   // LazSvn
   SVNClasses;
 
@@ -86,7 +86,8 @@ implementation
 {$R *.lfm}
 
 uses
-  SVNDiffForm, SVNCommitForm;
+  Math,
+  SettingsManager, SVNDiffForm, SVNCommitForm;
 
 procedure ShowSVNStatusFrm(ARepoPath: string);
 begin
@@ -365,11 +366,6 @@ begin
 end;
 
 procedure TSVNStatusFrm.FormCreate(Sender: TObject);
-var
-  Config: TINIFile;
-  count: integer;
-  i: integer;
-  s: string;
 begin
   mnuShowDiff.Caption := rsShowDiff;
   mnuOpen.Caption := rsOpenFileInEditor;
@@ -394,22 +390,8 @@ begin
 
   ImageList.AddResourceName(HInstance, 'menu_svn_diff');
   ImageList.AddResourceName(HInstance, 'menu_svn_revert');
-  try
-    Config := TINIFile.Create('turtlesvn.ini');
-    count := Config.ReadInteger('Settings', 'HistoryCount', 0);
 
-    //limit to 100 entries
-    if count > 100 then
-      count := 100;
-    for i := count downto 0 do
-    begin
-      s := Config.ReadString('Messages', 'Msg' + IntToStr(i), '');
-      if s <> '' then
-        SVNCommitMsgHistoryComboBox.Items.Add(s);
-    end;
-  finally
-    Config.Free;
-  end;
+  SVNCommitMsgHistoryComboBox.Items.AddStrings(SettingsMgr.CommitMsg);
 end;
 
 procedure TSVNStatusFrm.FormDestroy(Sender: TObject);
@@ -419,18 +401,29 @@ end;
 
 procedure TSVNStatusFrm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
-  Config: TINIFile;
-  count: integer;
+  index: integer;
+  msg: TStrings;
 begin
   if SVNCommitMsgMemo.Text <> '' then
   begin
     try
-      Config := TINIFile.Create('turtlesvn.ini');
-      count := Config.ReadInteger('Settings', 'HistoryCount', 0);
-      Config.WriteInteger('Settings', 'HistoryCount', count + 1);
-      Config.WriteString('Messages', 'Msg' + IntToStr(count + 1), SVNCommitMsgMemo.Text);
+      msg := TStringList.Create;
+      msg.AddStrings(SVNCommitMsgHistoryComboBox.Items);
+
+      //delete a previous same mesage from the list, so we don't store duplicates
+      index := msg.IndexOf(SVNCommitMsgMemo.Text);
+      if index <> -1 then
+        msg.Delete(index);
+
+      msg.Insert(0, SVNCommitMsgMemo.Text);
+
+      //limit to 100 entries
+      while msg.Count > 99 do
+        msg.Delete(100);
+
+      SettingsMgr.CommitMsg := msg;
     finally
-      Config.Free;
+      msg.Free;
     end;
   end;
   SVNStatus.Free;
