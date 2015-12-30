@@ -1,0 +1,109 @@
+object SVNRenameForm: TSVNRenameForm
+  Left = 339
+  Height = 190
+  Top = 204
+  Width = 426
+  Caption = 'SVNRenameForm'
+  ClientHeight = 190
+  ClientWidth = 426
+  LCLVersion = '1.7'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 36
+    Top = 148
+    Width = 414
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object Label1: TLabel
+    Left = 6
+    Height = 15
+    Top = 6
+    Width = 414
+    Align = alTop
+    BorderSpacing.Around = 6
+    Caption = 'Copy file or folder'
+    ParentColor = False
+  end
+  object OriginalLocationEdit: TEdit
+    Left = 6
+    Height = 25
+    Top = 27
+    Width = 414
+    Align = alTop
+    BorderSpacing.Around = 6
+    ReadOnly = True
+    TabOrder = 1
+    Text = 'OriginalLocationEdit'
+  end
+  object Label2: TLabel
+    Left = 6
+    Height = 15
+    Top = 58
+    Width = 414
+    Align = alTop
+    BorderSpacing.Around = 6
+    Caption = 'to new location'
+    ParentColor = False
+  end
+  object NewLocationEdit: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = SelectLocationButton
+    Left = 6
+    Height = 25
+    Top = 79
+    Width = 387
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    TabOrder = 2
+    Text = 'NewLocationEdit'
+  end
+  object SelectLocationButton: TButton
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 399
+    Height = 27
+    Top = 79
+    Width = 21
+    Anchors = [akTop, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = '...'
+    OnClick = SelectLocationButtonClick
+    TabOrder = 3
+  end
+  object MoveCheckBox: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = SelectLocationButton
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 24
+    Top = 112
+    Width = 414
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    Caption = 'Move files and folders (delete original)'
+    TabOrder = 4
+  end
+  object SelectDirectoryDialog: TSelectDirectoryDialog
+    Options = [ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 240
+    top = 56
+  end
+end
