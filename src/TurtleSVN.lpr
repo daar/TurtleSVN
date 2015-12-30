@@ -10,7 +10,7 @@ uses
   Forms, lazcontrols, Main, svnstatusform, svndiffform, svnupdateform,
   svnaddprojectform, svnclasses, svnlogform, svncommitform, SVNCheckout,
   fdiffer, idiff, Utils, SettingsDialog, GeneralOptionsFrm, AdvancedOptionsFrm,
-  SettingsManager;
+  SettingsManager, SVNUpdateToRevision;
 
 {$R *.res}
 
@@ -20,6 +20,7 @@ begin
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TSVNCheckoutForm, SVNCheckoutForm);
   Application.CreateForm(TSettingsForm, SettingsForm);
+  Application.CreateForm(TSVNUpdateToRevisionForm, SVNUpdateToRevisionForm);
   Application.Run;
 end.
 

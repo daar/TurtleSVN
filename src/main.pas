@@ -52,7 +52,7 @@ type
     DeleteMenuItem: TMenuItem;
     MenuItem4: TMenuItem;
     LogMenuItem: TMenuItem;
-    MenuItem6: TMenuItem;
+    UpdateToRevisionMenuItem: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
@@ -82,6 +82,7 @@ type
     procedure btnGoClick(Sender: TObject);
     procedure ShellListViewDblClick(Sender: TObject);
     procedure ShellTreeViewChange(Sender: TObject; Node: TTreeNode);
+    procedure UpdateToRevisionMenuItemClick(Sender: TObject);
   private
     { private declarations }
     PopupComponent: string;
@@ -101,7 +102,7 @@ implementation
 
 uses
   SVNClasses, SVNLogForm, SVNDiffForm, SVNStatusForm, SVNUpdateForm,
-  SVNCheckout, AboutFrm, SettingsDialog;
+  SVNCheckout, AboutFrm, SettingsDialog, SVNUpdateToRevision;
 
 { TMainForm }
 
@@ -139,13 +140,24 @@ begin
   ShowDirectory(ShellTreeView.Path);
 end;
 
+procedure TMainForm.UpdateToRevisionMenuItemClick(Sender: TObject);
+begin
+  if PopupComponent = 'TShellTreeView' then
+    //update folder recursively
+    ShowSVNUpdateToRevisionFrm(ShellTreeView.Path)
+  else
+  begin
+    if Assigned(ShellListView.Selected) then
+      ShowSVNUpdateToRevisionFrm(IncludeTrailingPathDelimiter(edtPath.Text) + ShellListView.Selected.Caption);
+  end;
+end;
+
 procedure TMainForm.ShowDirectory(ListDir: string);
 var
   Info: TSearchRec;
   Count: longint;
   li: TListItem;
   FileTime: TDateTime;
-
 begin
   ListDir := IncludeTrailingPathDelimiter(ListDir);
   edtPath.Text := ListDir;
@@ -430,7 +442,7 @@ var
   i: Integer;
   filelist: string = '';
 begin
-  if Sender.ClassName = 'TShellTreeView' then
+  if PopupComponent = 'TShellTreeView' then
     //add folder recursively
     ShowSVNUpdateFrm(ShellTreeView.Path, Format('%s add %s', [SVNExecutable, ShellTreeView.Path]))
   else

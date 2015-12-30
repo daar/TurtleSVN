@@ -50,7 +50,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="18">
       <Unit0>
         <Filename Value="TurtleSVN.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -97,6 +97,7 @@
       <Unit6>
         <Filename Value="svnclasses.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="SVNClasses"/>
       </Unit6>
       <Unit7>
         <Filename Value="svnlogform.pas"/>
@@ -104,6 +105,7 @@
         <ComponentName Value="SVNLogFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNLogForm"/>
       </Unit7>
       <Unit8>
         <Filename Value="svncommitform.pas"/>
@@ -161,6 +163,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="SettingsManager"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="svnupdatetorevision.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SVNUpdateToRevisionForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SVNUpdateToRevision"/>
+      </Unit17>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
