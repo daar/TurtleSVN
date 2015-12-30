@@ -37,7 +37,7 @@ implementation
 
 function TSettingsManager.GetCommitMsg: TStrings;
 var
-  index: integer = 1;
+  index: integer = 0;
   s: String;
 begin
   Result := TStringList.Create;
