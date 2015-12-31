@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1439572740"/>
+  <Params Value=" -MObjFPC -Scghi -Cg -O1 -g -gl -l -vewnhibq -Fu/home/darius/develop/lazarus/packager/units/x86_64-linux -Fu/home/darius/develop/TurtleSVN.git/trunk/components/synapse40/source/lib/ -FU/home/darius/develop/TurtleSVN.git/trunk/components/synapse40/source/lib/lib/x86_64-linux/ laz_synapse.pas"/>
+</CONFIG>
